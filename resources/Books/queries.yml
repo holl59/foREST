@@ -5,5 +5,5 @@
   query: >
          SELECT *
          FROM books
-         WHERE title = ':title:'
-         {AND year = :year:}"
+         WHERE title like '%:title%'
+         {AND year = :year}"

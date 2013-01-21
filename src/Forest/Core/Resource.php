@@ -10,7 +10,8 @@
 namespace Forest\Core;
 
 use Forest\Core\Database,
-    Forest\Core\Exception;
+    Forest\Core\Exception,
+    Forest\Core\Request;
 
 /**
  * Resource
@@ -29,7 +30,7 @@ class Resource extends Abstraction {
      * 
      * @return array $result
      */
-    public function query($key) {
+    public function query($key, Request $request) {
         $queries = Registry::get('queries');
         
         if (!isset($queries[$key])) {
@@ -41,7 +42,7 @@ class Resource extends Abstraction {
         
         $database = $this->getFromDatabases($dbname);
         
-        $result = $database->executeQuery($query->getQuery());
+        $result = $database->executeQuery($query->getQuery(), $request->getParameters());
         
         return $result;
     }

@@ -87,10 +87,23 @@ class Database
      *
      * @return array $result
      */
-    public function executeQuery($query) {
+    public function executeQuery($query, $requestParameters) {
+
         $statement = $this->pdo->prepare($query);
         
-        if (!$statement->execute()) {
+      /**
+       * Bind Parameters
+       */
+       foreach ($requestParameters as $name => $value) {
+          
+          $statement->bindValue(":$name", $value);
+        }
+        
+        
+        $execute = $statement->execute();
+        
+        if (!$execute) {
+
             $infos = $statement->errorInfo();
             $message = isset($infos[2]) ? $infos[2] : 'no info';
             
@@ -100,7 +113,8 @@ class Database
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         
         if (empty($result)) {
-            throw new Exception('No result', 204);
+          
+            throw new Exception(sprintf('No result'), 204);
         }
         
         return $result;

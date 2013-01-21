@@ -75,7 +75,7 @@ class Exporter extends Abstraction
      */
     public function render() {
         if (null === $this->output) {
-            throw new Exception(500, 'Cannot output null output data.');
+            $this->setOutput('500 Cannot output null output data.');
         }
         
         exit($this->output);

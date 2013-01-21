@@ -10,7 +10,8 @@
 namespace Forest\Resources;
 
 use Forest\Core\Request,
-    Forest\Core\Resource;
+    Forest\Core\Resource,
+    Forest\Core\Views\Json;
 
 /**
  * Books
@@ -24,6 +25,10 @@ class Books extends Resource {
      * @return array
      */
     public function getBooks(Request $request) {
-        return array('books' => array('book1', 'book2'));
+
+        $query = $this->query('books.list', $request);
+        
+        $json = new Json();
+        return $json->display($query[0]);
     }
 }
