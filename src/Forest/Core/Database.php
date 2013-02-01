@@ -96,7 +96,9 @@ class Database
        */
        foreach ($requestParameters as $name => $value) {
           
+          if ($name != 'callback') {
           $statement->bindValue(":$name", $value);
+        }
         }
         
         

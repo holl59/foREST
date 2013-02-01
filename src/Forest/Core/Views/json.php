@@ -8,7 +8,8 @@
 
 namespace Forest\Core\Views;
 
-use Forest\Core\Abstraction;
+use Forest\Core\Abstraction,
+    Forest\Core\Request;
 
 /*
  * Json Class
@@ -19,13 +20,21 @@ Class Json extends Abstraction {
       return (utf8_encode($n));
     }
 
-  public function display($data) {
+  public function display($data, Request &$request ) {
 
 header('Content-Type:application/json');
 
     $array = array_map(array($this,"encodeUtf8"),$data);
 
-    return json_encode($array);
+    $json = json_encode($array);
+
+    $callback = $request->getParameter('callback');
+
+    if ($callback) {
+    $json = $callback.'('. $json.');';
+    } 
+
+    return $json;
   }
 }
 
